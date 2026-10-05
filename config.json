@@ -1,0 +1,27 @@
+{
+  "shopName": "Morris Street Laundry & Dry Cleaners",
+  "tagline": "Neighborhood dry cleaning and laundry in Paulus Hook",
+  "phone": "(201) 209-1511",
+  "address": "110 Morris St Ste A, Jersey City, NJ 07302",
+  "hours": "Call or visit for hours",
+  "photoUrl": "hero.jpg",
+  "services": [
+    {
+      "name": "Dry cleaning",
+      "description": "Professional dry cleaning for suits, dresses, and everyday garments."
+    },
+    {
+      "name": "Laundry & press",
+      "description": "Wash, dry, and press service when you need clothes back ready to wear."
+    },
+    {
+      "name": "Neighborhood location",
+      "description": "Call or stop by — hours and turnaround by phone."
+    }
+  ],
+  "email": "troupe.javelin-7w@icloud.com",
+  "demoId": "morris-st-cleaners-jc",
+  "ownerName": "us",
+  "ownerPhone": "(908) 286-8650",
+  "ownerEmail": "troupe.javelin-7w@icloud.com"
+}
