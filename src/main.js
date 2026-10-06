@@ -15,6 +15,15 @@ function slugify(name) {
     .slice(0, 40)
 }
 
+// Resolve a site asset relative to the current page, never the domain root.
+// "/hero.jpg" (legacy configs) and "hero.jpg" both become <page dir>/hero.jpg;
+// absolute http(s):// or protocol-relative URLs are left alone.
+function assetUrl(path) {
+  const p = String(path || "")
+  if (/^(https?:)?\/\//i.test(p) || /^data:/i.test(p)) return p
+  return new URL(p.replace(/^\/+/, ""), document.baseURI).href
+}
+
 function applyConfig(cfg) {
   document.title = cfg.shopName
   document.getElementById("shop-name").textContent = cfg.shopName
@@ -23,17 +32,19 @@ function applyConfig(cfg) {
   document.getElementById("hours").textContent = cfg.hours
   document.getElementById("phone").textContent = cfg.phone || "Visit or message for details"
   const photo = document.getElementById("shop-photo")
-  // Self-hosted /hero.jpg is the default. If a remote photoUrl ever dies, fall back to
-  // /hero.jpg once, then hide the image rather than show a broken-image icon.
+  // Self-hosted hero.jpg (resolved relative to the page, so it works at a domain root on
+  // Railway AND under a sub-path like moosya.github.io/site-xxx/ on GitHub Pages).
+  // If a remote photoUrl ever dies, fall back to hero.jpg once, then hide the image.
+  const heroUrl = assetUrl("hero.jpg")
   photo.onerror = () => {
-    if (!photo.dataset.fallback && !String(photo.src).endsWith("/hero.jpg")) {
+    if (!photo.dataset.fallback && photo.src !== heroUrl) {
       photo.dataset.fallback = "1"
-      photo.src = "/hero.jpg"
+      photo.src = heroUrl
     } else {
       photo.style.display = "none"
     }
   }
-  photo.src = cfg.photoUrl || "/hero.jpg"
+  photo.src = cfg.photoUrl ? assetUrl(cfg.photoUrl) : heroUrl
   photo.alt = cfg.shopName
   const demoId = cfg.demoId || slugify(cfg.shopName)
   const previewUrl = window.location.href
@@ -112,7 +123,7 @@ function applyConfig(cfg) {
 }
 
 async function main() {
-  const res = await fetch("/config.json?v=" + Date.now(), {
+  const res = await fetch(assetUrl("config.json") + "?v=" + Date.now(), {
     cache: "no-store",
   })
   if (!res.ok) throw new Error("config.json missing")

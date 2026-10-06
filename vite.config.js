@@ -24,4 +24,6 @@ function businessTitle() {
   }
 }
 
-export default defineConfig({ plugins: [businessTitle()] })
+// base "./" => built index.html references ./assets/..., so the same build works at a
+// domain root (Railway) and under a sub-path (GitHub Pages /site-xxx/). Never use root-absolute paths.
+export default defineConfig({ base: "./", plugins: [businessTitle()] })

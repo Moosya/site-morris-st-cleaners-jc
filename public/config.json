@@ -4,7 +4,7 @@
   "phone": "(201) 209-1511",
   "address": "110 Morris St Ste A, Jersey City, NJ 07302",
   "hours": "Call or visit for hours",
-  "photoUrl": "/hero.jpg",
+  "photoUrl": "hero.jpg",
   "services": [
     {
       "name": "Dry cleaning",
